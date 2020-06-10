@@ -1,11 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { Map, TileLayer, LayersControl, Popup, Marker } from 'react-leaflet';
+import { Map, TileLayer, LayersControl, Popup, Marker, withLeaflet } from 'react-leaflet';
 import Search from "react-leaflet-search";
 import "leaflet/dist/leaflet.css";
 import './Map.css'
 import MapOptionBar from '../mapoptionbar/MapOptionBar';
 import Weather from '../weather/Weather'
 import L from 'leaflet';
+import Routing from "./RoutingMachine";
+import MapInfo from "./MapInfo";
 
 
 const { BaseLayer, Overlay } = LayersControl ;
@@ -22,13 +24,17 @@ L.Icon.Default.mergeOptions({
 
 
 export default class SimpleExample extends Component {
- 
-      state = {
+      constructor(){
+        super();
+        this.state = {
         lat: 48.0833,
         lng: -1.6833,
         zoom:13,
-        weatherIsOpen:false
+        weatherIsOpen:false,
+        isMapInit: false
       }
+      }
+      
   
 
   Popup=(SearchInfo) => {
@@ -42,6 +48,15 @@ export default class SimpleExample extends Component {
       </Popup>
     );
   }
+
+  saveMap = map => {
+    this.map = map;
+    this.setState({
+      isMapInit: true
+    });
+  };
+
+
 
  setWeather=(e) =>{
   e.preventDefault();
@@ -60,29 +75,29 @@ export default class SimpleExample extends Component {
     return (
       <Fragment>
         
-      <Map className='map' center={position} zoom={this.state.zoom} style={{ height: "calc(100vh - 100px)" }}>
-        <LayersControl position="topright" >
-                <BaseLayer checked name="OpenStreetMap.Mapnik">
+      <Map className='map' ref={this.saveMap} center={position} zoom={this.state.zoom} style={{ height: "calc(100vh - 100px)" }}>
+       
                       <TileLayer
                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            />
-                </BaseLayer>
+                      />
+       
                 
-                <Overlay name="Marker with popup">
+              
                   <Marker position={[48.4438604,-1.1050784 ]}>
                     <Popup>
                       A pretty CSS3 popup. <br /> Easily customizable.
                     </Popup>
                   </Marker>
-                </Overlay>
+                  
+             
          
 
-                <Search className='search-bar' position="topright" openSearchOnLoad={false} popUp={this.myPopup} closeResultsOnClick={true} />
+            <Search className='search-bar' position="topleft" openSearchOnLoad={false} popUp={this.myPopup} closeResultsOnClick={true} />
 
-        </LayersControl>
-   
+     
+            {this.state.isMapInit && <Routing map={this.map} />}
       </Map>
-     {this.state.weatherIsOpen?<Weather />: null }   
+      {this.state.weatherIsOpen?<Weather />: null }   
         <MapOptionBar weatherOnClick={this.setWeather}  />
       </Fragment>
     )
