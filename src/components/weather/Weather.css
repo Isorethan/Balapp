@@ -1,0 +1,76 @@
+.weather-widget{
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    /* height: 300px; */
+    width: 100%;
+    background-color:transparent;
+    bottom: 130px;
+    text-align: center;
+    
+
+    justify-content: center;
+    align-items: center;
+    animation: slideUp 0.2s ease-in forwards;
+}
+
+
+.weather__city-name {
+    background-color: #FF9B42;
+    width: 100%;
+    border-radius: 30px 30px 10px 10px;
+    box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.16);
+    font-family: 'Paytone One';
+}
+
+.weather__infos-container {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 0px 0px 10px 10px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+    font-family: 'EB Garamond';
+}
+
+.weather__infos {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+.weather-icon{
+    display: block;
+    margin: 0 auto;
+    width: 50px;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.left-data {
+    text-align: right;
+    padding: 0 5px;
+}
+
+.right-data {
+    text-align: center;
+}
+
+
+.weather__spinner {
+    margin: 0 auto;
+}
+
+.weather-loading {
+    background-color: white;
+    height: 100%;
+    width: 100%;
+}
+
+@keyframes slideUp {
+    from  {
+        transform: translateY(200px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}

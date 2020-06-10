@@ -1,0 +1,26 @@
+.header {
+    display: flex;
+    position:relative;
+    height: 50px;
+    background-color: #FF9B42;
+    position: relative;
+    align-content: space-between;
+    justify-content: space-between;
+    border-radius: 0 0 24px 0px;
+    box-shadow: 0 3px 6px rgba(0, 0 ,0, 0.16);
+}
+
+
+.header-logo {
+    max-height: 95%;
+    margin-left: 10px;
+    align-self: center;
+   
+}
+.header-login {
+    max-height: 80%;
+    margin-left: 10px;
+    align-self: center;
+    margin-right: 10px;
+    
+}
