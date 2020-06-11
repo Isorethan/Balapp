@@ -2,3 +2,26 @@
     z-index: 0;
     overflow: hidden;
 }
+
+.search-bar {
+    top:-20px;
+    position :absolute;
+    right: -6px;
+}
+
+.search-popup {
+    max-width: 70vw;
+}
+
+.search-popup p {
+    width: 90%;
+}
+
+
+.leaflet-routing-container {
+    background-color: white;
+    height: 200px;
+    overflow-y: scroll;
+    padding: 13px 5px;
+   
+}

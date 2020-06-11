@@ -9,9 +9,6 @@ export default function MainRouter() {
         <main className='content'>
             <Switch>
             <Route exact path='/'>
-                <Home/>
-            </Route>
-            <Route exact path='/map/'>
                 <Map/>
             </Route>
             <Route exact path='/'>
