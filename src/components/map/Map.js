@@ -7,6 +7,7 @@ import MapOptionBar from '../mapoptionbar/MapOptionBar';
 import Weather from '../weather/Weather'
 import L from 'leaflet';
 import Routing from "./RoutingMachine";
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css'
 
 
 

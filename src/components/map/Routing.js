@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { Popup } from 'react-leaflet';
 import 'leaflet-routing-machine';
-import 'leaflet-control-geocoder';
+import 'leaflet-control-geocoder/dist/Control.Geocoder.js';
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
 import 'leaflet-routing-machine/dist/leaflet-routing-machine.css';
 
-import { MAPBOX_TOKEN, MAPBOX_SERVICE_URL } from 'consts';
+
 
 class Routing extends Component {
   static propTypes = {
@@ -45,7 +46,7 @@ class Routing extends Component {
       this.routing = L.Routing.control({
         plan,
         serviceUrl: "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-        router: L.Routing.mapbox(MAPBOX_TOKEN),
+        router: L.Routing.mapbox('pk.eyJ1IjoiaWl6byIsImEiOiJjazU4NTNla28wODliM2pyZm9uNHI1bXBvIn0.OT8s8L8U9Y0o0OjTIdBb4g'),
       });
 
       this.props.map.leafletElement.addControl(this.routing);
