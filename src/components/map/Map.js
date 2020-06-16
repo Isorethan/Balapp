@@ -7,8 +7,9 @@ import MapOptionBar from '../mapoptionbar/MapOptionBar';
 import Weather from '../weather/Weather'
 import L from 'leaflet';
 import Routing from "./RoutingMachine";
-import 'leaflet-control-geocoder/dist/Control.Geocoder.css'
-
+// import Routing from "./Routing";
+import 'leaflet-control-geocoder/dist/Control.Geocoder.css';
+import {Context} from '../../store/Context'
 
 
 // const { BaseLayer, Overlay } = LayersControl ;
@@ -24,92 +25,46 @@ L.Icon.Default.mergeOptions({
 
 
 
-// export default class SimpleExample extends Component {
-//       constructor(){
-//         super();
-//         this.state = {
-//         lat: 48.0833,
-//         lng: -1.6833,
-//         zoom:13,
-//         weatherIsOpen:false,
-//         isMapInit: false
-//       }
-//       }
-      
-  
-
-
-//   saveMap = map => {
-//     this.map = map;
-//     this.setState({
-//       isMapInit: true
-//     });
-//   };
-
-
-
-
-
-
-
-
-
-//   render() {
-    
-//     const position = [this.state.lat, this.state.lng]
-//     return (
-//       <Fragment>
-        
-//       <Map  className='map' ref={this.saveMap} center={position} zoom={this.state.zoom} style={{ height: "calc(100vh - 100px)" }}>
-//                       {this.state.isMapInit && <Routing map={this.map} />}
-//                       <TileLayer
-//                                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-//                       />
-       
-                
-              
-//                   <Marker position={[48.4438604,-1.1050784 ]} draggable={true}>
-//                     <Popup>
-//                       A pretty CSS3 popup. <br /> Easily customizable.
-//                     </Popup>
-//                   </Marker>
-                  
-             
-         
-
-//             <Search className='search-bar' position="topleft" openSearchOnLoad={false} popUp={this.myPopup} closeResultsOnClick={true} />
-
-     
-           
-//       </Map>
-//       {this.state.weatherIsOpen?<Weather />: null }   
-//         <MapOptionBar weatherOnClick={this.setWeather}  />
-//       </Fragment>
-//     )
-//   }
-// }
-
-
 
 export default class LeafletMap extends Component {
-  state = {
-    initialPosition:{lat: 57.74,lng: 11.94,zoom: 13,},
-    currentMarkerPosition:null,
-    routeIsOn:false,
-    currentRoute:[],
-    isMapInit: false,
-    weatherIsOpen:false,
-    loginIsOpen:false,
-    routeListIsOpen:false,
-    isLogged:false,
-    
-  };
-  saveMap = map => {
-    this.map = map;
-    this.setState({
-      isMapInit: true
-    });
-  };
+
+  static contextType = Context ;
+
+  removeSecondRoutingContainer(){
+   
+    // if(routingContainer !==undefined){
+    //   routingContainer[1].style.diplay = 'none';
+    // }
+  }
+ 
+  componentDidMount(){
+    const {initialPosition, isMapInit} =this.context
+  }
+
+
+
+
+createButton(label, container) {
+    var btn = L.DomUtil.create('button', '', container);
+    btn.setAttribute('type', 'button');
+    btn.innerHTML = label;
+    return btn;
+}
+
+
+
+
+
+
+
+  
+  componentDidUpdate(prevProps, prevState) {
+    // if( prevState.currentMarkerPosition !== this.state.currentMarkerPosition){
+    //   this.setState({
+    //      currentMarkerPosition:[this.handleClick.lat, this.handleClick.lng]
+    //   })
+    // }
+  }
 
   myPopup=(SearchInfo) => {
     return(
@@ -117,7 +72,7 @@ export default class LeafletMap extends Component {
         <div className='search-popup'>
           <p>latitude and longitude from search component:{SearchInfo.latLng.toString().replace(',',' , ')}</p>
           <p>Adresse: {SearchInfo.info}</p>
-          {console.log(SearchInfo)}
+          {/* {console.log(SearchInfo)} */}
 
           {/* <p>{JSON.stringify(SearchInfo.raw)}</p> */}
         </div>
@@ -126,38 +81,29 @@ export default class LeafletMap extends Component {
   }
 
 
-  setWeather=(e) =>{
-    e.preventDefault();
-     this.setState({
-       weatherIsOpen:!this.state.weatherIsOpen
-     })
-   }
+  
 
   handleClick(e) {
-    console.log(e.latlng);
-    return <Marker position={[e.latlng.lat,e.latlng.lng ]} draggable={true}>
-    <Popup>
-       A pretty CSS3 popup. <br /> Easily customizable.
-    </Popup>
-</Marker>
-    
+    return e.latlng  
   }
 
   render() {
-    const position = [this.state.initialPosition.lat, this.state.initialPosition.lng];
+    const {initialPosition, isMapInit, weatherIsOpen, setWeather} = this.context
+    const position = [initialPosition.lat,initialPosition.lng]
     return (
       <Fragment>
-            <Map className='map' center={position} onclick={this.handleClick} zoom={this.state.initialPosition.zoom} ref={this.saveMap} style={{ height: "calc(100vh - 100px)" }}>
+            <Map className='map' center={position} onclick={this.handleClick} zoom={initialPosition.zoom} ref={this.saveMap} style={{ height: "calc(100vh - 100px)" }}>
               <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-                url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                // url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
+                 url='https://{s}.tile.jawg.io/jawg-streets/{z}/{x}/{y}{r}.png?access-token=iMol10A9RwYIC4jyyBx3SimR0qvTvRN5zGYuL7r9sMXh7Oos6KjoMiNgyoiMKATf'
               />
-              {this.state.isMapInit && <Routing map={this.map} />}
+              {isMapInit && <Routing className='Router' map={this.map} />}
              
               <Search className='search-bar' position="topright" openSearchOnLoad={false} popUp={this.myPopup} closeResultsOnClick={true} />
             </Map>
-            {this.state.weatherIsOpen?<Weather />: null }   
-              <MapOptionBar weatherOnClick={this.setWeather}  />
+            {weatherIsOpen?<Weather />: null }   
+              <MapOptionBar weatherOnClick={setWeather}  />
       </Fragment>
     );
   }

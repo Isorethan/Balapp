@@ -24,7 +24,7 @@ export default class Weather extends Component {
 }
 
     componentDidMount(){
-        this.WeatherApi('Paris')
+        this.WeatherApi('Rennes')
     }
 
     render() {
