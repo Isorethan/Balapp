@@ -6,7 +6,7 @@ export  const Context = createContext();
 export class ContextProvider extends Component {
 
     state = {
-        initialPosition:{lat: 57.74,lng: 11.94,zoom: 13,},
+        initialPosition:{lat: 48.111339,lng: -1.68002,zoom: 13,},
         currentMarkerPosition:null,
         routeIsOn:false,
         currentRoute:[],

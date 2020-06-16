@@ -30,18 +30,6 @@ export default class LeafletMap extends Component {
 
   static contextType = Context ;
 
-  removeSecondRoutingContainer(){
-   
-    // if(routingContainer !==undefined){
-    //   routingContainer[1].style.diplay = 'none';
-    // }
-  }
- 
-  componentDidMount(){
-    const {initialPosition, isMapInit} =this.context
-  }
-
-
 
 
 createButton(label, container) {
@@ -53,9 +41,11 @@ createButton(label, container) {
 
 
 
-
-
-
+ refMap = map => {
+    this.map = map;
+    const {saveMap} = this.context
+    saveMap()
+  };
 
   
   componentDidUpdate(prevProps, prevState) {
@@ -88,11 +78,12 @@ createButton(label, container) {
   }
 
   render() {
+
     const {initialPosition, isMapInit, weatherIsOpen, setWeather} = this.context
     const position = [initialPosition.lat,initialPosition.lng]
     return (
       <Fragment>
-            <Map className='map' center={position} onclick={this.handleClick} zoom={initialPosition.zoom} ref={this.saveMap} style={{ height: "calc(100vh - 100px)" }}>
+            <Map className='map' center={position} onclick={this.handleClick} zoom={initialPosition.zoom} ref={this.refMap} style={{ height: "calc(100vh - 100px)" }}>
               <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 // url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
