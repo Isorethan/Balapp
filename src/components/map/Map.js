@@ -31,6 +31,10 @@ export default class LeafletMap extends Component {
   static contextType = Context ;
 
 
+componentDidMount(){
+  
+}
+
 
 createButton(label, container) {
     var btn = L.DomUtil.create('button', '', container);
@@ -47,24 +51,21 @@ createButton(label, container) {
     saveMap()
   };
 
+
   
-  componentDidUpdate(prevProps, prevState) {
-    // if( prevState.currentMarkerPosition !== this.state.currentMarkerPosition){
-    //   this.setState({
-    //      currentMarkerPosition:[this.handleClick.lat, this.handleClick.lng]
-    //   })
-    // }
-  }
+
 
   myPopup=(SearchInfo) => {
+    const {setWeatherState, setWeather, weatherData } = this.context
     return(
       <Popup >
         <div className='search-popup'>
-          <p>latitude and longitude from search component:{SearchInfo.latLng.toString().replace(',',' , ')}</p>
+          {/* <p>latitude and longitude from search component:{SearchInfo.latLng.toString().replace(',',' , ')}</p> */}
           <p>Adresse: {SearchInfo.info}</p>
-          {/* {console.log(SearchInfo)} */}
+          {console.log(weatherData)}
 
           {/* <p>{JSON.stringify(SearchInfo.raw)}</p> */}
+          <button onClick={ ()=> setWeatherState(SearchInfo.latLng)} >Météo ?</button>
         </div>
       </Popup>
     );
@@ -73,17 +74,14 @@ createButton(label, container) {
 
   
 
-  handleClick(e) {
-    return e.latlng  
-  }
 
   render() {
 
-    const {initialPosition, isMapInit, weatherIsOpen, setWeather} = this.context
+    const {initialPosition, isMapInit, weatherIsOpen, setWeather, setCurrentMarkerPosition } = this.context
     const position = [initialPosition.lat,initialPosition.lng]
     return (
       <Fragment>
-            <Map className='map' center={position} onclick={this.handleClick} zoom={initialPosition.zoom} ref={this.refMap} style={{ height: "calc(100vh - 100px)" }}>
+            <Map className='map' center={position} onclick={setCurrentMarkerPosition.bind(this)} zoom={initialPosition.zoom} ref={this.refMap} style={{ height: "calc(100vh - 100px)" }}>
               <TileLayer
                 attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
                 // url="http://{s}.tile.osm.org/{z}/{x}/{y}.png"
