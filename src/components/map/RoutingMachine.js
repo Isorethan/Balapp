@@ -13,11 +13,14 @@ import 'leaflet-control-geocoder/dist/Control.Geocoder.js';
 class Routing extends MapLayer {
   createLeafletElement() {
     const { map } = this.props;
+    let router = L.Routing.mapbox('pk.eyJ1IjoiaWl6byIsImEiOiJjazU4NTNla28wODliM2pyZm9uNHI1bXBvIn0.OT8s8L8U9Y0o0OjTIdBb4g');
+    let vehicle = 'cycling';
+    router.options.profile = 'mapbox/'+vehicle ;
     let leafletElement = L.Routing.control({
       waypoints: [
        
       ],
-      router: L.Routing.mapbox('pk.eyJ1IjoiaWl6byIsImEiOiJjazU4NTNla28wODliM2pyZm9uNHI1bXBvIn0.OT8s8L8U9Y0o0OjTIdBb4g'),
+      // router: 
       lineOptions: {
         // styles: [
         //   {
@@ -27,14 +30,17 @@ class Routing extends MapLayer {
         //   }
         // ]
       },
+      router: router,
+      language: 'fr',
       show:false,
       reverseWaypoints:true,
       collapsible:true,
       addWaypoints: true,
       draggableWaypoints: true,
       fitSelectedRoutes: true,
-      showAlternatives: true,
+      show: false,  
       geocoder: L.Control.Geocoder.mapbox('pk.eyJ1IjoiaWl6byIsImEiOiJjazU4NTNla28wODliM2pyZm9uNHI1bXBvIn0.OT8s8L8U9Y0o0OjTIdBb4g')
+  
     }).addTo(map.leafletElement);
     
     return leafletElement.getPlan();

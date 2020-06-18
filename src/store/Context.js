@@ -29,7 +29,7 @@ export class ContextProvider extends Component {
       setWeatherState= (query) =>{
           console.log(query)
         // let Url = `http://api.weatherstack.com/${time}?access_key=2f611ef3163a6efb098c07a2587762b4&query=${query} `;
-        let Url = "http://api.openweathermap.org/data/2.5/weather?lat="+query.lat+"&"+"lon="+query.lng+"&appid=1811371791e304b557ace681d2f41dcd"
+        let Url = `http://api.openweathermap.org/data/2.5/weather?lat=${query.lat}&lon=${query.lng}&appid=1811371791e304b557ace681d2f41dcd`
         fetch(Url).then(res =>
            res.json()).then(res => {
               this.setState({
